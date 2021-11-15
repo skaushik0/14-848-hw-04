@@ -1,0 +1,3 @@
+[submodule "ncdc-data"]
+	path = ncdc-data
+	url = https://github.com/mohamedfarag/ncdc-data
