@@ -1,0 +1,62 @@
+hw-04
+-----
+
+This repository contains the source and deployment scripts for running
+a Hadoop MapReduce job on Google Dataproc. This uses "hadoop-streaming"
+for the MapReduce operation using the "mapper.py" and "reducer.py"
+scripts.
+
+
+DEPLOYMENT
+
+    The creation and teardown of the cluster (along with the HDFS backing
+    store via Google Cloud Storage) is done with the "gloud" and "gsutil"
+    binaries. Job submission is also done with the same. To create a
+    Hadoop cluster and submit a job, run:
+
+        $ make
+
+    This will also download the result of the submitted job (i.e., the split
+    files: "part-*"), combine them and store it in "out/remote.txt".
+
+    To compare and verify results, the mapper and reducer scripts are run
+    locally and the results are stored in  "out/local.txt". By running the
+    "diff" command against the two files, we can see if the results match.
+
+
+    To teardown the cluster, and delete the associated Google Cloud Storage
+    buckets, run:
+
+        $ make clean
+
+
+STRUCTURE
+
+    - images/hadoop.png
+        Screenshot showing the output of the submitted Hadoop job.
+
+    - ncdc-data/data/*
+        Test data provided in the handout.
+
+    - out/*txt
+        Results of the submitted job, and the local run.
+
+    - cluster.yaml
+        Google Dataproc configuration for the Hadoop cluster. This is
+        a one master two node setup with "n2-standard-2" instances and
+        64G disk.
+
+    - mapper.py
+        The mapper script for streaming. This script parses the each
+        line in the data-set extracts the required key-value pairs,
+        along with filtering unwanted inputs.
+
+    - reducer.py
+        The reducer script for streaming. This script reads every line
+        returned by the mapper, computes the maximum temperature for a
+        particular day and emits a key-value pair containing the day
+        and the maximum temperature.
+
+    - Makefile
+        This has steps for deployment, job submission, result verification
+        and cluster teardown.
