@@ -46,10 +46,10 @@ cluster-up:
 
 # Submit the MapReduce job.
 submit-job:
-	gcloud dataproc jobs submit hadoop --region "$(CLOUD_REGION)"         \
-	--cluster=$(CLUSTER_NAME)  --jar="$(STREAM_JAR_PATH)" --              \
-	-files "gs://$(BUCKET_NAME)/mapper.py,gs://$(BUCKET_NAME)/reducer.py" \
-	-mapper "mapper.py" -reducer "reducer.py" -combiner "reducer.py"      \
+	gcloud dataproc jobs submit hadoop --region "$(CLOUD_REGION)"    \
+	--cluster=$(CLUSTER_NAME)  --jar="$(STREAM_JAR_PATH)" --         \
+	-files "$(STREAM_MAPPER),$(STREAM_REDUCER)"                      \
+	-mapper "mapper.py" -reducer "reducer.py" -combiner "reducer.py" \
 	$(addprefix -input ,$(INPUT_FILES)) -output "$(BUCKET_OUT_DIR)"
 
 # Download the computed results. Since Hadoop splits the results
