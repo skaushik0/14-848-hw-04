@@ -19,7 +19,7 @@ def parse(line):
     if recd_qual not in KEEP_QUAL_VALUES:
         return
 
-    print(timestamp, recd_temp)
+    print('{0}\t{1}'.format(timestamp, recd_temp))
 
 
 for line in sys.stdin:
